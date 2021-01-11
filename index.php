@@ -14,7 +14,7 @@ if(isset($_POST['forminscription']))
         /*emplacement du fichier*/
         $file_dest= 'img/'.$file_name;
         /*tableau d'extension durant l'upload*/
-        $extension_autoriser= array('.jpeg', '.jpg','.png','.gif','.webp','.svg','.psd','.pdf','.ai');
+        $extension_autoriser= array('.jpeg', '.jpg','.png','.gif','.webp','.svg','.pdf'); /*!warning les fichier .ai et .psd marche pas*/
         
         if(in_array($file_extension, $extension_autoriser)){
 
@@ -29,6 +29,7 @@ if(isset($_POST['forminscription']))
             echo 'seulement les fichiers avec les extensions jpeg, jpg, png, gif, webp sont autorisées';
         }
         $Prenom = strip_tags(trim($_POST['Prenom']));
+        /*preg_match  Effectue une recherche de correspondance avec une expression rationnelle standard*/
         if(!preg_match("/^[a-zA-Z-']*$/", $Prenom)){
             echo 'le prenom de doit contenir que des lettre majuscule ou minuscule';
         }
@@ -40,6 +41,7 @@ if(isset($_POST['forminscription']))
         $password =sha1(trim($_POST['password']));
         $reqmail=$pdo->prepare("SELECT*FROM inscription WHERE address_mail = ?");
         $reqmail->execute(array($address_mail));
+        /*if (filter_var($user_mail, FILTER_VALIDATE_EMAIL))*/
         $mailexist = $reqmail->rowCount();
         if($mailexist == 0)
         {
